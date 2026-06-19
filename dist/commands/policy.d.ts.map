@@ -1,1 +1,0 @@
-{"version":3,"file":"policy.d.ts","sourceRoot":"","sources":["../../src/commands/policy.ts"],"names":[],"mappings":";AAEA,OAAO,EAAE,OAAO,EAAE,MAAM,WAAW,CAAC;AAGpC,QAAA,MAAM,OAAO,SAAgB,CAAC;AAuH9B,cAAM,aAAa;IACL,OAAO,CAAC,MAAM;gBAAN,MAAM,EAAE,GAAG;IAE/B,OAAO,CAAC,OAAO,EAAE,GAAG,EAAE,GAAG,EAAE,GAAG;CAe/B;AAED,OAAO,EAAE,aAAa,EAAE,CAAC;AACzB,eAAe,OAAO,CAAC"}

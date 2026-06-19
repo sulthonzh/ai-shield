@@ -1,1 +1,0 @@
-{"version":3,"file":"compliance.d.ts","sourceRoot":"","sources":["../../src/commands/compliance.ts"],"names":[],"mappings":";AAEA,OAAO,EAAE,OAAO,EAAE,MAAM,WAAW,CAAC;AAIpC,QAAA,MAAM,OAAO,SAAgB,CAAC;AA0H9B,cAAM,iBAAiB;IACT,OAAO,CAAC,MAAM;gBAAN,MAAM,EAAE,GAAG;IAE/B,OAAO,CAAC,OAAO,EAAE,GAAG;CAWrB;AAED,OAAO,EAAE,iBAAiB,EAAE,CAAC;AAC7B,eAAe,OAAO,CAAC"}

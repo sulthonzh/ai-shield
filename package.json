@@ -57,19 +57,30 @@
   "jest": {
     "preset": "ts-jest",
     "testEnvironment": "node",
-    "roots": ["<rootDir>/src"],
-    "testMatch": ["**/__tests__/**/*.ts", "**/?(*.)+(spec|test).ts"],
+    "roots": [
+      "<rootDir>/src"
+    ],
+    "testMatch": [
+      "**/__tests__/**/*.ts",
+      "**/?(*.)+(spec|test).ts"
+    ],
     "collectCoverageFrom": [
       "src/**/*.ts",
       "!src/**/*.d.ts",
       "!src/index.ts"
     ],
     "coverageDirectory": "coverage",
-    "coverageReporters": ["text", "lcov", "html"]
+    "coverageReporters": [
+      "text",
+      "lcov",
+      "html"
+    ]
   },
   "eslintConfig": {
     "parser": "@typescript-eslint/parser",
-    "plugins": ["@typescript-eslint"],
+    "plugins": [
+      "@typescript-eslint"
+    ],
     "extends": [
       "eslint:recommended",
       "@typescript-eslint/recommended"
@@ -79,5 +90,13 @@
       "@typescript-eslint/no-explicit-any": "warn",
       "no-console": "warn"
     }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sulthonzh/ai-shield.git"
+  },
+  "homepage": "https://github.com/sulthonzh/ai-shield#readme",
+  "bugs": {
+    "url": "https://github.com/sulthonzh/ai-shield/issues"
   }
 }
