@@ -98,5 +98,6 @@
   "homepage": "https://github.com/sulthonzh/ai-shield#readme",
   "bugs": {
     "url": "https://github.com/sulthonzh/ai-shield/issues"
-  }
+  },
+  "types": "dist/index.d.ts"
 }
