@@ -137,7 +137,7 @@ describe('ComplianceChecker - Extended Coverage', () => {
         }
       ];
       
-      const recommendations = checker.getComplianceRecommendations(lowScoreReports as any[]);
+      const recommendations = checker.getComplianceRecommendations(lowScoreReports as unknown as import('../types').ComplianceReport[]);
       expect(recommendations.length).toBeGreaterThan(3);
       // Should mention the low score
       expect(recommendations.some(r => r.includes('below acceptable'))).toBe(true);
@@ -173,7 +173,7 @@ describe('ComplianceChecker - Extended Coverage', () => {
 
     it('should throw for unsupported format', async () => {
       const reports = await checker.checkAllPlatforms();
-      expect(() => checker.exportComplianceReport(reports, 'xml' as any)).toThrow('Unsupported format');
+      expect(() => checker.exportComplianceReport(reports, 'xml' as 'json' | 'csv' | 'pdf')).toThrow('Unsupported format');
     });
   });
 

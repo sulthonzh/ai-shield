@@ -1,8 +1,10 @@
 import { ConfigManager } from '../utils/config-manager';
 import { PlatformConfig, SecurityPolicy } from '../types';
 import * as fs from 'fs';
+import * as path from 'path';
 
 jest.mock('fs');
+jest.mock('path');
 
 describe('ConfigManager - Extended Coverage', () => {
   let manager: ConfigManager;
@@ -33,7 +35,7 @@ describe('ConfigManager - Extended Coverage', () => {
     jest.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
     jest.spyOn(fs, 'readFileSync').mockReturnValue('{}');
     jest.spyOn(fs, 'unlinkSync').mockImplementation(() => {});
-    jest.spyOn(require('path'), 'join').mockReturnValue(mockConfigPath);
+    jest.spyOn(path, 'join').mockReturnValue(mockConfigPath);
     manager = new ConfigManager();
   });
 
@@ -211,7 +213,7 @@ describe('ConfigManager - Extended Coverage', () => {
     it('should return error for invalid platform name', () => {
       const errors = manager.validatePlatformConfig({
         ...mockPlatform,
-        name: 'invalid' as any
+        name: 'invalid' as 'openai' | 'anthropic' | 'google' | 'azure'
       });
       expect(errors).toContain('Invalid platform name');
     });
@@ -252,7 +254,7 @@ describe('ConfigManager - Extended Coverage', () => {
       ['openai', 'anthropic', 'google', 'azure'].forEach(name => {
         const errors = manager.validatePlatformConfig({
           ...mockPlatform,
-          name: name as any
+          name: name as 'openai' | 'anthropic' | 'google' | 'azure'
         });
         expect(errors).not.toContain('Invalid platform name');
       });
@@ -283,7 +285,7 @@ describe('ConfigManager - Extended Coverage', () => {
     it('should return error for invalid severity', () => {
       const errors = manager.validatePolicy({
         ...mockPolicy,
-        severity: 'invalid' as any
+        severity: 'invalid' as 'low' | 'medium' | 'high' | 'critical'
       });
       expect(errors).toContain('Invalid severity level');
     });
@@ -296,7 +298,7 @@ describe('ConfigManager - Extended Coverage', () => {
     it('should return error for invalid platform in array', () => {
       const errors = manager.validatePolicy({
         ...mockPolicy,
-        platform: ['openai', 'invalid' as any]
+        platform: ['openai', 'invalid' as 'openai' | 'anthropic' | 'google' | 'azure']
       });
       expect(errors).toContain('Invalid platform: invalid');
     });
@@ -305,7 +307,7 @@ describe('ConfigManager - Extended Coverage', () => {
       ['low', 'medium', 'high', 'critical'].forEach(severity => {
         const errors = manager.validatePolicy({
           ...mockPolicy,
-          severity: severity as any
+          severity: severity as 'low' | 'medium' | 'high' | 'critical'
         });
         expect(errors).not.toContain('Invalid severity level');
       });
