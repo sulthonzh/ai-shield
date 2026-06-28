@@ -1,6 +1,6 @@
-# ai-shield - AI Security Orchestration CLI
+# ai-shield
 
-Zero-dependency CLI tool for unified AI security management across multiple platforms. Coordinate security policies, threat detection, and compliance across OpenAI, Anthropic, Google AI, and Microsoft Azure AI.
+**Your AI stack has four different security consoles. ai-shield gives you one.** Unified threat detection, compliance tracking, and incident response across OpenAI, Anthropic, Google AI, and Azure — with zero runtime dependencies.
 
 ## Why AI Shield?
 
@@ -237,11 +237,48 @@ npm run build
 
 MIT License - see LICENSE file for details.
 
+## Comparison
+
+| Feature | ai-shield | Lakera Guard | Rebuff | Purpose-built scripts |
+|---------|-----------|--------------|-------|-----------------------|
+| Multi-platform | ✅ 4 providers | OpenAI only | OpenAI only | DIY |
+| Zero dependencies | ✅ | ❌ | ❌ | Depends |
+| Prompt injection detection | ✅ Built-in | ✅ | ✅ | Manual |
+| Compliance tracking | ✅ SOC2/GDPR/HIPAA | ❌ | ❌ | ❌ |
+| CLI-first | ✅ | ❌ API only | ❌ Library | ✅ |
+| Policy management | ✅ Unified | ❌ | ❌ | DIY |
+| Incident response | ✅ Coordinated | ❌ | ❌ | Manual |
+
+## Real-World Examples
+
+### 1. Pre-deployment Security Audit
+Run a full security sweep before launching your AI feature to production:
+```bash
+ai-shield status --verbose          # Check posture across all platforms
+ai-shield compliance check --json   # SOC2/GDPR compliance report
+ai-shield threat detect             # Scan for prompt injection, data leakage
+ai-shield report generate --type overview --output audit.pdf
+```
+
+### 2. Continuous Monitoring in CI/CD
+Gate deployments on security posture:
+```bash
+ai-shield monitor start --continuous --timeout 300
+ai-shield threat detect --severity critical --json | jq 'length'
+# Fail CI if critical threats found
+```
+
+### 3. Incident Response Workflow
+Triage and respond to a security incident across platforms:
+```bash
+ai-shield alerts list --severity critical
+ai-shield threat respond --id THREAT-001 --action quarantine --notes "Contained prompt injection"
+ai-shield report generate --type incident --output incident-report.json
+```
+
 ## Support
 
-- 📧 Email: support@ai-shield.io
-- 🐛 Issues: GitHub Issues
-- 📖 Documentation: docs.ai-shield.io
+- 🐛 Issues: [GitHub Issues](https://github.com/sulthonzh/ai-shield/issues)
 
 ## Roadmap
 
