@@ -19,7 +19,7 @@ program
   .option('-j, --json', 'Output in JSON format')
   .action(async (options) => {
     try {
-      const config = new ConfigManager();
+
       
       // Mock security posture data
       const posture: SecurityPosture = {
@@ -79,7 +79,7 @@ program
   .option('-j, --json', 'Output in JSON format')
   .action(async (options) => {
     try {
-      const config = new ConfigManager();
+
       
       if (!options.platform) {
         console.log('Available platforms:');
@@ -175,9 +175,9 @@ function displayStatus(posture: SecurityPosture, verbose: boolean = false) {
 }
 
 class StatusCommand {
-  constructor(private config: any) {}
+  constructor(private config: ConfigManager) {}
   
-  execute(options: any) {
+  execute(options: Record<string, unknown>) {
     if (options.show) {
       program.parse(['node', 'status', 'show', ...Object.entries(options).flatMap(([key, value]) => value ? [`--${key}`, String(value)] : [])]);
     } else if (options.platform) {

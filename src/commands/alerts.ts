@@ -2,7 +2,6 @@
 
 import { Command } from 'commander';
 import { ConfigManager } from '../utils/config-manager';
-import { ThreatDetection } from '../types';
 
 const program = new Command();
 
@@ -19,9 +18,8 @@ program
   .option('--severity <severity>', 'Filter alerts by severity (low|medium|high|critical)')
   .option('--limit <number>', 'Maximum number of alerts to show', '20')
   .option('--format <format>', 'Output format (table|json)', 'table')
-  .action(async (options) => {
+  .action(async (_options) => {
     try {
-      const config = new ConfigManager();
       console.log('Alert listing not yet implemented');
     } catch (error) {
       console.error('Error:', error instanceof Error ? error.message : 'Unknown error');
@@ -35,9 +33,9 @@ program
   .description('Acknowledge a security alert')
   .argument('<alert-id>', 'ID of the alert to acknowledge')
   .option('--reason <reason>', 'Reason for acknowledging the alert')
-  .action(async (alertId, options) => {
+  .action(async (_alertId, _options) => {
     try {
-      console.log(`Acknowledging alert ${alertId}`);
+      console.log(`Acknowledging alert ${_alertId}`);
     } catch (error) {
       console.error('Error:', error instanceof Error ? error.message : 'Unknown error');
       process.exit(1);
@@ -53,7 +51,7 @@ program
   .option('--severity <severity>', 'Alert severity (low|medium|high|critical)', 'medium')
   .option('--title <title>', 'Alert title')
   .option('--description <description>', 'Detailed description of the alert')
-  .action(async (options) => {
+  .action(async (_options) => {
     try {
       console.log('Alert creation not yet implemented');
     } catch (error) {
@@ -67,7 +65,7 @@ program
   .command('stats')
   .description('Show security alert statistics')
   .option('--platform <platform>', 'Filter by platform')
-  .action(async (options) => {
+  .action(async (_options) => {
     try {
       console.log('Alert statistics not yet implemented');
     } catch (error) {
@@ -81,9 +79,9 @@ if (require.main === module) {
 }
 
 class AlertsCommand {
-  constructor(private config: any) {}
+  constructor(private config: ConfigManager) {}
   
-  execute(options: any, cmd: any) {
+  execute(options: Record<string, unknown>, cmd: { args?: string[] }) {
     program.parse(['node', 'alerts', ...Object.entries(options).flatMap(([key, value]) => value ? [`--${key}`, String(value)] : []), ...(cmd.args || [])]);
   }
 }

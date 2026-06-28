@@ -81,10 +81,10 @@ export class ConfigManager {
         const savedConfig = JSON.parse(fs.readFileSync(this.configPath, 'utf8'));
         
         // Convert date strings back to Date objects
-        savedConfig.policies = savedConfig.policies.map((policy: any) => ({
+        savedConfig.policies = savedConfig.policies.map((policy: Record<string, unknown>) => ({
           ...policy,
-          createdAt: new Date(policy.createdAt),
-          updatedAt: new Date(policy.updatedAt)
+          createdAt: new Date(policy.createdAt as string),
+          updatedAt: new Date(policy.updatedAt as string)
         }));
         
         return { ...defaultConfig, ...savedConfig };
@@ -274,7 +274,7 @@ export class ConfigManager {
     const enabledPolicies = this.getPolicies().filter(p => p.enabled);
 
     let totalScore = 0;
-    let platformScores: { name: string; score: number; threats: number; incidents: number; lastUpdated: Date; }[] = [];
+    const platformScores: { name: string; score: number; threats: number; incidents: number; lastUpdated: Date; }[] = [];
 
     platforms.forEach(platform => {
       if (platform.enabled) {

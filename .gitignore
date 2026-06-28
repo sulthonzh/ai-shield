@@ -3,6 +3,7 @@ dist/
 coverage/
 build/
 .env
+.env.*
 *.log
 .DS_Store
 __pycache__/
@@ -10,4 +11,3 @@ __pycache__/
 *.egg-info/
 .mypy_cache/
 *.bak
-.env.*

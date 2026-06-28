@@ -18,7 +18,7 @@ export interface Alert {
   acknowledged: boolean;
   acknowledgedBy?: string;
   acknowledgedAt?: Date;
-  metadata: Record<string, any>;
+  metadata: Record<string, unknown>;
 }
 
 export interface AlertStats {
@@ -45,15 +45,17 @@ export class SecurityMonitor extends EventEmitter {
     const alerts = Array.from(this.alerts.values())
       .filter(alert => !alert.acknowledged);
 
+    let filtered = alerts;
+
     if (filter?.platform) {
-      alerts.filter(alert => alert.platform === filter.platform);
+      filtered = filtered.filter(alert => alert.platform === filter.platform);
     }
 
     if (filter?.severity) {
-      alerts.filter(alert => alert.severity === filter.severity);
+      filtered = filtered.filter(alert => alert.severity === filter.severity);
     }
 
-    return alerts;
+    return filtered;
   }
 
   async acknowledgeAlert(alertId: string, options: {
@@ -94,7 +96,7 @@ export class SecurityMonitor extends EventEmitter {
     severity: 'low' | 'medium' | 'high' | 'critical';
     title: string;
     description: string;
-    metadata?: Record<string, any>;
+    metadata?: Record<string, unknown>;
   }): Promise<Alert> {
     const alert: Alert = {
       id: `alert-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,

@@ -2,6 +2,7 @@
 
 import { Command } from 'commander';
 import { ConfigManager } from '../utils/config-manager';
+import { PlatformConfig } from '../types';
 
 const program = new Command();
 
@@ -71,7 +72,7 @@ program
   .command('test')
   .description('Test platform connections')
   .option('-p, --platform <platform>', 'Test specific platform')
-  .action(async (options) => {
+  .action(async (_options) => {
     try {
       console.log('Connection testing not yet implemented');
     } catch (error) {
@@ -102,21 +103,21 @@ program
   });
 
 class ConfigureCommand {
-  constructor(private config: any) {}
+  constructor(private config: ConfigManager) {}
   
-  execute(options: any) {
+  execute(options: Record<string, unknown>) {
     try {
       if (options.list) {
         const platforms = this.config.getPlatforms();
         console.log('Configured platforms:');
         platforms.forEach(p => {
-          console.log(`  ${p.name}: ${p.enabled ? 'enabled' : 'disabled'}${p.configured ? ' (configured)' : ''}`);
+          console.log(`  ${p.name}: ${p.enabled ? 'enabled' : 'disabled'}${p.apiKey ? ' (configured)' : ''}`);
         });
         return;
       }
 
       if (options.platform) {
-        const platformName = options.platform;
+        const platformName = options.platform as string;
         
         if (options.enable || options.disable) {
           const enabled = options.enable !== undefined;
@@ -126,8 +127,13 @@ class ConfigureCommand {
         }
 
         if (options.apiKey) {
-          console.log(`Configuring ${platformName} with API key`);
-          // TODO: Implement actual API key storage
+          this.config.addPlatform({
+            name: platformName as PlatformConfig['name'],
+            apiKey: options.apiKey as string,
+            baseUrl: options.baseUrl as string | undefined,
+            enabled: true,
+          });
+          console.log(`✅ ${platformName} configured successfully`);
         } else {
           console.log('Interactive configuration not yet implemented');
         }

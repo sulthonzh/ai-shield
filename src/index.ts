@@ -128,7 +128,7 @@ program
   .command('alerts')
   .description('Manage security alerts')
   .action((options, cmd) => {
-    const alertsCmd = new (AlertsCommand as any)(config);
+    const alertsCmd = new AlertsCommand(config);
     alertsCmd.execute(options, cmd);
   });
 

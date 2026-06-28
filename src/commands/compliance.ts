@@ -19,7 +19,7 @@ program
   .option('-j, --json', 'Output in JSON format')
   .action(async (options) => {
     try {
-      const config = new ConfigManager();
+
       console.log('Running compliance checks...');
       
       // Simulate compliance results
@@ -68,9 +68,9 @@ program
           
           console.log(`${result.platform.toUpperCase()}: ${result.compliance.overallScore}/100 (${grade})`);
           
-          const failedChecks = result.compliance.checks.filter((c: any) => c.status === 'fail');
+          const failedChecks = result.compliance.checks.filter((c: { status: string }) => c.status === 'fail');
           if (failedChecks.length > 0) {
-            console.log(`  Failed: ${failedChecks.map((c: any) => c.name).join(', ')}`);
+            console.log(`  Failed: ${failedChecks.map((c: { name: string }) => c.name).join(', ')}`);
           }
           
           compliantPlatforms += result.compliance.overallScore >= 90 ? 1 : 0;
@@ -126,9 +126,9 @@ program
   });
 
 class ComplianceCommand {
-  constructor(private config: any) {}
+  constructor(private config: ConfigManager) {}
   
-  execute(options: any) {
+  execute(options: Record<string, unknown>) {
     if (options.check) {
       program.parse(['node', 'compliance', 'check', ...Object.entries(options).flatMap(([key, value]) => value ? [`--${key}`, String(value)] : [])]);
     } else if (options.history) {

@@ -21,7 +21,7 @@ program
   .option('-j, --json', 'Output in JSON format')
   .action(async (options) => {
     try {
-      const config = new ConfigManager();
+
       
       // Mock threat detection results
       const threats: ThreatDetection[] = [
@@ -126,7 +126,7 @@ program
   .option('-j, --json', 'Output in JSON format')
   .action(async (options) => {
     try {
-      const config = new ConfigManager();
+
       
       // Mock history data
       const history = [
@@ -220,7 +220,14 @@ function displayThreats(threats: ThreatDetection[]) {
   console.log(`Total: ${threats.length} threat(s) detected`);
 }
 
-function displayAnalytics(analytics: any) {
+function displayAnalytics(analytics: {
+  totalThreats: number;
+  resolvedThreats: number;
+  falsePositives: number;
+  avgResolutionTime: string;
+  topThreatTypes: Array<{ type: string; count: number }>;
+  platformRisks: Array<{ platform: string; riskScore: number }>;
+}) {
   console.log('📊 Threat Analytics');
   console.log('─'.repeat(50));
   console.log(`Total Threats: ${analytics.totalThreats}`);
@@ -229,12 +236,12 @@ function displayAnalytics(analytics: any) {
   console.log(`Avg Resolution Time: ${analytics.avgResolutionTime}`);
   
   console.log('\nTop Threat Types:');
-  analytics.topThreatTypes.forEach((item: any) => {
+  analytics.topThreatTypes.forEach((item: { type: string; count: number }) => {
     console.log(`  ${item.type}: ${item.count} incidents`);
   });
   
   console.log('\nPlatform Risk Scores:');
-  analytics.platformRisks.forEach((item: any) => {
+  analytics.platformRisks.forEach((item: { platform: string; riskScore: number }) => {
     const riskIcon = item.riskScore >= 7 ? '🔴' : 
                     item.riskScore >= 5 ? '🟡' : '🟢';
     console.log(`  ${riskIcon} ${item.platform}: ${item.riskScore}/10`);
@@ -242,9 +249,9 @@ function displayAnalytics(analytics: any) {
 }
 
 class ThreatCommand {
-  constructor(private config: any) {}
+  constructor(private config: ConfigManager) {}
   
-  execute(options: any) {
+  execute(options: Record<string, unknown>) {
     if (options.detect) {
       program.parse(['node', 'threat', 'detect', ...Object.entries(options).flatMap(([key, value]) => value ? [`--${key}`, String(value)] : [])]);
     } else if (options.respond) {
@@ -258,11 +265,11 @@ class ThreatCommand {
     }
   }
   
-  showHistory(options: any) {
+  showHistory(options: Record<string, unknown>) {
     this.execute({ ...options, history: true });
   }
   
-  respond(options: any) {
+  respond(options: Record<string, unknown>) {
     this.execute({ ...options, respond: true });
   }
 }

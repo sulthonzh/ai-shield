@@ -9,7 +9,7 @@ export interface ThreatDetection {
   detectedAt: Date;
   status: 'active' | 'investigating' | 'resolved' | 'false-positive';
   confidence: number;
-  evidence: Record<string, any>;
+  evidence: Record<string, unknown>;
 }
 
 export interface PlatformConfig {
@@ -34,7 +34,7 @@ export interface SecurityPolicy {
 export interface OrganizationConfig {
   name: string;
   departments: string[];
-  alertConfig: Record<string, any>;
+  alertConfig: Record<string, unknown>;
   securityLevel: 'basic' | 'standard' | 'advanced';
 }
 
@@ -91,5 +91,5 @@ export interface SecurityAlert {
   acknowledged: boolean;
   acknowledgedBy?: string;
   acknowledgedAt?: Date;
-  metadata: Record<string, any>;
+  metadata: Record<string, unknown>;
 }

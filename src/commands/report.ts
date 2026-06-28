@@ -3,6 +3,7 @@
 import { Command } from 'commander';
 import { ConfigManager } from '../utils/config-manager';
 import { SecurityPosture } from '../types';
+import * as fs from 'fs';
 
 const program = new Command();
 
@@ -21,7 +22,7 @@ program
   .option('-p, --period <period>', 'Time period (7d|30d|90d|1y)', '30d')
   .action(async (options) => {
     try {
-      const config = new ConfigManager();
+
       
       // Generate mock report data
       const report: SecurityPosture = {
@@ -65,7 +66,7 @@ program
       if (options.format === 'json') {
         const output = JSON.stringify(report, null, 2);
         if (options.output) {
-          require('fs').writeFileSync(options.output, output);
+          fs.writeFileSync(options.output as string, output);
           console.log(`Report saved to: ${options.output}`);
         } else {
           console.log(output);
@@ -73,7 +74,7 @@ program
       } else {
         const markdown = generateMarkdownReport(report, options.type);
         if (options.output) {
-          require('fs').writeFileSync(options.output, markdown);
+          fs.writeFileSync(options.output as string, markdown);
           console.log(`Report saved to: ${options.output}`);
         } else {
           console.log(markdown);
@@ -108,7 +109,7 @@ program
   .description('Schedule automatic report generation')
   .option('-f, --frequency <frequency>', 'Frequency (daily|weekly|monthly)')
   .option('-e, --email <email>', 'Email to send reports to')
-  .action(async (options) => {
+  .action(async (_options) => {
     try {
       console.log('Report scheduling not yet implemented');
     } catch (error) {
@@ -171,9 +172,9 @@ function generateMarkdownReport(report: SecurityPosture, type: string): string {
 }
 
 class ReportCommand {
-  constructor(private config: any) {}
+  constructor(private config: ConfigManager) {}
   
-  execute(options: any) {
+  execute(options: Record<string, unknown>) {
     if (options.generate) {
       program.parse(['node', 'report', 'generate', ...Object.entries(options).flatMap(([key, value]) => value ? [`--${key}`, String(value)] : [])]);
     } else if (options.templates) {

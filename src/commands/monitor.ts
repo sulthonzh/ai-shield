@@ -20,7 +20,7 @@ program
   .option('-j, --json', 'Output in JSON format')
   .action(async (options) => {
     try {
-      const config = new ConfigManager();
+
       console.log('Starting security monitoring...');
       console.log(`Mode: ${options.continuous ? 'continuous' : 'single scan'}`);
       console.log(`Timeout: ${options.timeout} seconds`);
@@ -109,9 +109,9 @@ program
   });
 
 class MonitorCommand {
-  constructor(private config: any) {}
+  constructor(private config: ConfigManager) {}
   
-  execute(options: any) {
+  execute(options: Record<string, unknown>) {
     if (options.start) {
       program.parse(['node', 'monitor', 'start', ...Object.entries(options).flatMap(([key, value]) => value ? [`--${key}`, String(value)] : [])]);
     } else if (options.stop) {

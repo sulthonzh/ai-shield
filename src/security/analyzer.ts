@@ -1,18 +1,53 @@
 import { ThreatDetection, PlatformStatus } from '../types';
 
+interface ThreatPattern {
+  type: string;
+  description: string;
+  confidence: number;
+}
+
+interface ThreatTrendAnalysis {
+  volumeTrend: 'increasing' | 'decreasing' | 'stable';
+  severityTrend: 'increasing' | 'decreasing' | 'stable';
+  platformDistribution: Record<string, number>;
+  typeDistribution: Record<string, number>;
+}
+
+interface ThreatAnalysisResult {
+  patterns: ThreatPattern[];
+  trends: ThreatTrendAnalysis;
+  recommendations: string[];
+}
+
+interface SecurityPostureAssessment {
+  overallScore: number;
+  weaknesses: string[];
+  strengths: string[];
+  riskLevel: 'low' | 'medium' | 'high';
+}
+
+interface IncidentResponseTime {
+  averageTime: number;
+  medianTime: number;
+  minTime: number;
+  maxTime: number;
+}
+
+interface HistoricalData {
+  threats: ThreatDetection[];
+  incidents: Record<string, unknown>[];
+  compliance: Record<string, unknown>[];
+}
+
 export class SecurityAnalyzer {
   private threats: ThreatDetection[] = [];
 
   /**
    * Analyze patterns in threat detection data
    */
-  analyzeThreatPatterns(_threats: ThreatDetection[]): {
-    patterns: any[];
-    trends: any;
-    recommendations: string[];
-  } {
-    const patterns = this.detectPatterns(_threats);
-    const trends = this.analyzeTrends(_threats);
+  analyzeThreatPatterns(threats: ThreatDetection[]): ThreatAnalysisResult {
+    const patterns = this.detectPatterns(threats);
+    const trends = this.analyzeTrends(threats);
     const recommendations = this.generateRecommendations([]);
 
     return {
@@ -25,12 +60,7 @@ export class SecurityAnalyzer {
   /**
    * Generate security posture assessment
    */
-  generateSecurityPosture(platforms: PlatformStatus[]): {
-    overallScore: number;
-    weaknesses: string[];
-    strengths: string[];
-    riskLevel: 'low' | 'medium' | 'high';
-  } {
+  generateSecurityPosture(platforms: PlatformStatus[]): SecurityPostureAssessment {
     const totalScore = platforms.reduce((sum, platform) => sum + platform.score, 0);
     const averageScore = platforms.length > 0 ? totalScore / platforms.length : 0;
 
@@ -81,7 +111,7 @@ export class SecurityAnalyzer {
       .filter(([_, count]) => count >= 3)
       .map(([type, count]) => ({
         id: `emerging-${type}-${Date.now()}`,
-        type: type as any,
+        type: type as ThreatDetection['type'],
         severity: 'high' as const,
         platform: 'multiple',
         description: `Emerging threat pattern detected for ${type} (${count} occurrences)`,
@@ -98,15 +128,10 @@ export class SecurityAnalyzer {
   /**
    * Calculate incident response time
    */
-  calculateIncidentResponseTime(threats: ThreatDetection[]): {
-    averageTime: number;
-    medianTime: number;
-    minTime: number;
-    maxTime: number;
-  } {
+  calculateIncidentResponseTime(threats: ThreatDetection[]): IncidentResponseTime {
     const responseTimes = threats
       .filter(threat => threat.status === 'resolved')
-      .map(threat => {
+      .map(_threat => {
         // Mock response time calculation
         return Math.floor(Math.random() * 1440) + 60; // 1-25 hours in minutes
       });
@@ -169,12 +194,7 @@ export class SecurityAnalyzer {
   /**
    * Threat trend analysis
    */
-  analyzeTrends(_threats: ThreatDetection[]): {
-    volumeTrend: 'increasing' | 'decreasing' | 'stable';
-    severityTrend: 'increasing' | 'decreasing' | 'stable';
-    platformDistribution: Record<string, number>;
-    typeDistribution: Record<string, number>;
-  } {
+  analyzeTrends(_threats: ThreatDetection[]): ThreatTrendAnalysis {
     // Mock trend analysis
     return {
       volumeTrend: 'stable',
@@ -193,8 +213,8 @@ export class SecurityAnalyzer {
     };
   }
 
-  private detectPatterns(_threats: ThreatDetection[]): any[] {
-    const patterns: any[] = [];
+  private detectPatterns(_threats: ThreatDetection[]): ThreatPattern[] {
+    const patterns: ThreatPattern[] = [];
     
     // For now, return some mock patterns
     patterns.push({
@@ -215,11 +235,7 @@ export class SecurityAnalyzer {
   /**
    * Get historical threat data
    */
-  getHistoricalData(_days: number): {
-    threats: ThreatDetection[];
-    incidents: any[];
-    compliance: any[];
-  } {
+  getHistoricalData(_days: number): HistoricalData {
     return {
       threats: [],
       incidents: [],

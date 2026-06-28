@@ -2,6 +2,7 @@
 
 import { Command } from 'commander';
 import { ConfigManager } from '../utils/config-manager';
+import { SecurityPolicy } from '../types';
 
 const program = new Command();
 
@@ -70,7 +71,7 @@ program
   .option('-r, --rule <rule>', 'Policy rule')
   .option('-p, --platform <platform>', 'Target platform (comma-separated)')
   .option('-s, --severity <severity>', 'Severity level (low|medium|high|critical)', 'medium')
-  .action(async (options) => {
+  .action(async (_options) => {
     try {
       console.log('Policy creation not yet implemented');
     } catch (error) {
@@ -97,7 +98,7 @@ program
     }
   });
 
-function displayPolicies(policies: any[]) {
+function displayPolicies(policies: SecurityPolicy[]) {
   if (policies.length === 0) {
     console.log('No policies found');
     return;
@@ -123,9 +124,9 @@ function displayPolicies(policies: any[]) {
 }
 
 class PolicyCommand {
-  constructor(private config: any) {}
+  constructor(private config: ConfigManager) {}
   
-  execute(options: any) {
+  execute(options: Record<string, unknown>) {
     if (options.list) {
       program.parse(['node', 'policy', 'list', ...Object.entries(options).flatMap(([key, value]) => value ? [`--${key}`, String(value)] : [])]);
     } else if (options.enable) {
