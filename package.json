@@ -99,5 +99,8 @@
   "bugs": {
     "url": "https://github.com/sulthonzh/ai-shield/issues"
   },
-  "types": "dist/index.d.ts"
+  "types": "dist/index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  }
 }
