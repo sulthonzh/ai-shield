@@ -1,8 +1,8 @@
 # ai-shield — STATUS
 
-**Last audit:** 2026-07-09
+**Last audit:** 2026-07-09 (re-verified 2026-08-16)
 **Status:** EXCEPTIONAL
-**Commit:** ed91883
+**Commit:** 381f784 (merged remote: 81a94b2 prepublishOnly + 381f784 code quality; tests 379/379 GREEN)
 
 ## Exceptional Checklist
 
